@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report an Issue</title>
+</head>
+<body>
+    <h1>StreetSaver - Report an Issue</h1>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        Report |
+        <a href="{{ url_for('reports') }}">View Reports</a>
+    </nav>
+
+    <form action="/report" method="POST" enctype="multipart/form-data">
+        <label>Category:</label><br>
+        <select name="category" required>
+            <option value="">-- Select Category --</option>
+            <option value="Person">Person</option>
+            <option value="Animal">Animal</option>
+        </select><br><br>
+
+        <label>Description:</label><br>
+        <textarea name="description" required></textarea><br><br>
+
+        <label>Location:</label><br>
+        <input type="text" name="location" required><br><br>
+
+        <label>Image:</label><br>
+        <input type="file" name="image"><br><br>
+
+        <button type="submit">Submit Report</button>
+    </form>
+</body>
+</html>

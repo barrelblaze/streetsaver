@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Reports</title>
+</head>
+<body>
+    <h1>Reported Cases</h1>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a> |
+        <a href="{{ url_for('report') }}">Report</a> |
+        View Reports
+    </nav>
+
+    {% if reports %}
+        <ul>
+            {% for report in reports %}
+                <li>
+                    <strong>Category:</strong> {{ report.category }}<br>
+                    <strong>Description:</strong> {{ report.description }}<br>
+                    <strong>Location:</strong> {{ report.location }}<br>
+                    {% if report.image_filename %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ report.image_filename) }}" width="200"><br>
+                    {% endif %}
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reports found yet.</p>
+    {% endif %}
+</body>
+</html>

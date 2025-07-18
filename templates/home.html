@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreetSaver - Home</title>
+</head>
+<body>
+    <h1>Welcome to StreetSaver</h1>
+
+    <nav>
+        Home |
+        <a href="{{ url_for('report') }}">Report an Issue</a> |
+        <a href="{{ url_for('reports') }}">View Reports</a>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li><strong>{{ category.capitalize() }}:</strong> {{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <p>Use this platform to report lost, stranded, or distressed people and animals. Let's make a difference!</p>
+</body>
+</html>
