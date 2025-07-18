@@ -23,6 +23,18 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+    <script>
+        // Auto-dismiss flash messages after 3 seconds
+        setTimeout(function() {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.classList.add('fade');
+                alert.classList.add('show');
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 3000);
+    </script>
+    
 
     <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
@@ -47,7 +59,7 @@
 
         <div class="mb-3">
             <label class="form-label">Contact Number</label>
-            <input type="text" name="contact" class="form-control" required>
+            <input type="number" name="contact" class="form-control" required>
         </div>
 
         <div class="mb-3">
