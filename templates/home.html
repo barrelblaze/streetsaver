@@ -1,27 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>StreetSaver - Home</title>
+    <title>StreetSaver - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .report-form, .report-list {
+            margin-bottom: 40px;
+        }
+
+        .report-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .report-card img {
+            max-width: 300px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        label, input, select, textarea, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .flash {
+            color: green;
+        }
+    </style>
 </head>
 <body>
+
     <h1>Welcome to StreetSaver</h1>
 
-    <nav>
-        Home |
-        <a href="{{ url_for('report') }}">Report an Issue</a> |
-        <a href="{{ url_for('reports') }}">View Reports</a>
-    </nav>
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <ul>
-          {% for category, message in messages %}
-            <li><strong>{{ category.capitalize() }}:</strong> {{ message }}</li>
+        <ul class="flash">
+          {% for message in messages %}
+            <li>{{ message }}</li>
           {% endfor %}
         </ul>
       {% endif %}
     {% endwith %}
 
-    <p>Use this platform to report lost, stranded, or distressed people and animals. Let's make a difference!</p>
+    <div class="report-form">
+        <h2>Report an Issue</h2>
+        <form action="/report" method="POST" enctype="multipart/form-data">
+            <label>Category:</label>
+            <select name="category" required>
+                <option value="">-- Select Category --</option>
+                <option value="Person">Person</option>
+                <option value="Animal">Animal</option>
+            </select>
+
+            <label>Description:</label>
+            <textarea name="description" required></textarea>
+
+            <label>Location:</label>
+            <input type="text" name="location" required>
+
+            <label>Image:</label>
+            <input type="file" name="image">
+
+            <button type="submit">Submit Report</button>
+        </form>
+    </div>
+
+    <div class="report-list">
+        <h2>All Submitted Reports</h2>
+
+        {% if reports %}
+            {% for report in reports %}
+                <div class="report-card">
+                    <p><strong>Category:</strong> {{ report.category }}</p>
+                    <p><strong>Description:</strong> {{ report.description }}</p>
+                    <p><strong>Location:</strong> {{ report.location }}</p>
+
+                    {% if report.image_filename %}
+                        <p><strong>Image:</strong></p>
+                        <img src="{{ url_for('static', filename='uploads/' + report.image_filename) }}" alt="Report Image">
+                    {% else %}
+                        <p><em>No image uploaded</em></p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No reports submitted yet.</p>
+        {% endif %}
+    </div>
+
 </body>
 </html>
